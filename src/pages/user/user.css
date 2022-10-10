@@ -1,0 +1,10 @@
+.container__user{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1%;
+}
+
+.title-noVehicles {
+  font-size: 25px;
+  margin: 250px 0px;
+}
