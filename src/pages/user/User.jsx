@@ -2,6 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import CardUser from '../../components/cardUser/CardUser'
 import CardVehicle from '../../components/cardVehicle/CardVehicle'
+import Nav from '../../components/nav/Nav'
 import './user.css'
 
 const User = () => {
@@ -17,6 +18,7 @@ const User = () => {
           <h1 className='title-noVehicles'>No hay Vehiculos Registrados, para este usuario: {query.state.name}</h1> 
         }
       </div>
+      <Nav />
     </div>
   )
 }

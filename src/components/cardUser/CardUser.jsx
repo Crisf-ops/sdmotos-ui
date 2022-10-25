@@ -1,25 +1,18 @@
-import React, { useState } from 'react'
-import ModalAddVehicle from '../modals/addVehicle/modalAddVehicle'
-import { Button, Modal, ModalHeader, ModalBody, ModalTitle, ModalFooter, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
+import React from 'react'
 import './cardUsuer.css'
+import { useNavigate } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const CardUser = ({ user }) => {
 
-  let numTotalRepair
-  let numVehicles
+  let numTotalRepair = 0
+  let numVehicles  = 0
+  const navigate = useNavigate()
 
-  const [modalShow, setModalShow] = useState(false)
-
-  const handleModelShowOpen = () => { 
-    setModalShow(true)
-    console.log(modalShow)
+  const handleChangeAddVehicle = (e) => { 
+    e.preventDefault()
+    navigate(`/addVehicle/${user.documento}`,{state: user})
   }
-
-  const handleModelShowClose = () => { 
-    setModalShow(false)
-    console.log(modalShow)
-  }
-
 
   const isRepairsExists = () => {
     if (user.vehicles.length > 0) {
@@ -29,9 +22,6 @@ const CardUser = ({ user }) => {
         arrayRepair.push(user.vehicles[i].repair.length)
       }
       numTotalRepair = arrayRepair.reduce((prev, curr) => prev + curr, 0)
-    } else {
-      numVehicles = 0
-      numTotalRepair = 0
     }
   }
 
@@ -43,7 +33,8 @@ const CardUser = ({ user }) => {
     <>
       <div className='card'>
 
-        <div className="banner"><svg viewBox="0 0 100 100">
+        <div className="banner">
+          <svg viewBox="0 0 100 100">
           <path d="m38.977 59.074c0 2.75-4.125 2.75-4.125 0s4.125-2.75 4.125 0"></path>
           <path d="m60.477 59.074c0 2.75-4.125 2.75-4.125 0s4.125-2.75 4.125 0"></path>
           <path d="m48.203 69.309c1.7344 0 3.1484-1.4141 3.1484-3.1484 0-0.27734-0.22266-0.5-0.5-0.5-0.27734 0-0.5 0.22266-0.5 0.5 0 1.1836-0.96484 2.1484-2.1484 2.1484s-2.1484-0.96484-2.1484-2.1484c0-0.27734-0.22266-0.5-0.5-0.5-0.27734 0-0.5 0.22266-0.5 0.5 0 1.7344 1.4141 3.1484 3.1484 3.1484z"></path>
@@ -59,11 +50,10 @@ const CardUser = ({ user }) => {
             <h2><span>{`${numTotalRepair}`}</span><small>Reparaciones</small></h2>
           </div>
           <div className="follow-btn">
-            <button onClick={handleModelShowOpen}>Agregar Vehiculo</button>
+            <Button onClick={(e) => handleChangeAddVehicle(e)}>Agregar Vehiculo</Button>
           </div>
         </div>
       </div>
-      {/* <ModalAddVehicle show={modalShow} onHide={handleModelShowClose} /> */} 
     </>
   )
 }

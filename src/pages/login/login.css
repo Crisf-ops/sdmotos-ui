@@ -1,5 +1,11 @@
 img {
   position: relative;
-  padding: auto;
   width: auto;
+}
+
+@media screen {
+  img {
+    width: 100%;
+    top: 7rem;
+  }
 }

@@ -1,0 +1,48 @@
+.conteiner {
+  width: auto;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* slider */
+.slider{
+  width: 90%;
+  margin: auto;
+  height: 600px;
+  /* ocultar imagnes que esten fuera se oculten */
+  overflow: hidden;
+}
+
+.slider ul{
+  display: flex;
+  padding: 0;
+  width: 400%;
+  /* aniacion del slider */
+  animation: cambio 20s infinite alternate linear;
+}
+
+.slider li{
+  width: 100%;
+  list-style: none;
+}
+.slider img{
+  width: 100%;
+  height: 90%;
+  top: 0;
+}
+
+@keyframes cambio{
+  /* la primera imagen durara 4 segundos */
+  0% {margin-left: 0%;}
+  20%{margin-left: 0%;}
+
+  25%{margin-left: -100%;}
+  45%{margin-left: -100%;}
+
+  50%{margin-left: -200%;}
+  70%{margin-left: -200%;}
+
+  75%{margin-left: -300%;}
+  100%{margin-left: -300%;}
+}

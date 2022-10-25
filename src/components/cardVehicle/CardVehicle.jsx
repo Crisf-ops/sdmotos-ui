@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import ListRepair from '../listRepair/ListRepair';
-import { Button, Modal, ModalHeader, ModalBody, ModalTitle, ModalFooter } from 'react-bootstrap'
 import './cardVehicle.css'
 
 const CardVehicle = ({ user }) => {
 
   const { vehicles } = user
 
-  const [show, setShow] = useState(false)
-
-  const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   return (
@@ -30,19 +26,6 @@ const CardVehicle = ({ user }) => {
           </div>
         </div>
       ))}
-      {/* <ModalRepair show={show} handleClose={handleClose} /> */}
-      <Modal show={show} onHide={handleClose}>
-        <ModalHeader>
-          <ModalTitle>Agregar una Reparacion</ModalTitle>
-        </ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque totam deserunt placeat. Placeat laudantium aspernatur quos ratione voluptatem ut, aliquam quam alias debitis nobis fugit cumque perspiciatis totam ab tempore!
-          <ModalFooter>
-            <Button onClick={handleClose}>Close</Button>
-            <Button>Guardar</Button>
-          </ModalFooter>
-        </ModalBody>
-      </Modal>
     </>
   )
 }
