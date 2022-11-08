@@ -1,34 +1,58 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Dropdown, Form, Button } from 'react-bootstrap'
+import AlertCustom from '../alert/AlertCustom'
 import { endpoints } from '../../setting/endpoints'
+import './formAddVehicle.css'
+import { useNavigate } from 'react-router-dom'
+import { validateFieldsIsEmpty } from '../../utils/utils'
 
-const MOTO = 'Moto'
-const CAR = 'Carro'
+const TYPE_VEHICLE = {
+  Moto: 1,
+  Carro: 0
+}
 
 const FormAddVehicle = ({ user }) => {
 
   const [selectTypeVehicle, setSelectTypeVehicle] = useState('')
   const [model, setModel] = useState('')
   const [placa, setPLaca] = useState('')
+  const [alert, setAlert] = useState(null)
+  const navigate = useNavigate()
 
   const handleSubmitVehicle = async (e) => {
     e.preventDefault()
-    const vehicle = selectTypeVehicle === MOTO ? 1 : 0
-    const response = await axios.post(endpoints.addVehicle, createdBody(vehicle),
-    {
-      headers: { 'Content-Type': 'application/json' } 
-    }).catch(err => console.log(err))
-
-    if (response.status === 201) {
-      e.target.reset()
-      setSelectTypeVehicle('')
+    if (validDateForm()) {
+      const response = await axios.post(endpoints.addVehicle, createdBody(),
+      {
+        headers: { 'Content-Type': 'application/json' } 
+      }).catch(err => console.log(err))
+  
+      if (response.status === 201) {
+        e.target.reset()
+        setSelectTypeVehicle('')
+        handleShowAlert(true,'success','Se a guardado el vehiculo')
+      } else {
+        setSelectTypeVehicle('')
+        handleShowAlert(true,'danger','No se ha podido guardar el vehiculo')
+      }
+    } else {
+      handleShowAlert(true,'danger','Verifique los campos')
     }
   }
 
-  const createdBody = (type) => {
+  const validDateForm = () => {
+    let valid = 0
+    valid += validateFieldsIsEmpty(placa) ? 0 : 1
+    valid += validateFieldsIsEmpty(model) ? 0 : 1
+    return valid === 0
+  }
+
+  const createdBody = () => {
+    const TYPE_VEHICLE_DEFAULD = 0
+    const typeVehicle = TYPE_VEHICLE[selectTypeVehicle] || TYPE_VEHICLE_DEFAULD
     const body = JSON.stringify({
-      typeVehicle: type,
+      typeVehicle: typeVehicle,
       model: model,
       placa: placa,
       user: {
@@ -43,8 +67,23 @@ const FormAddVehicle = ({ user }) => {
     return body
   }
 
+  const handleShowAlert = (status, variant ,text) => {
+    setAlert({
+      status: status,
+      variant: variant,
+      text: text
+    })
+    setTimeout(() => {
+      setAlert(null)
+    },'5000')
+  }
+
+  const handleBlack = () => {
+    navigate(`/listUser`)
+  }
+
   return (
-    <>
+    <div className='container-form'>
       <Form onSubmit={handleSubmitVehicle}>
 
         <Form.Group>
@@ -68,22 +107,26 @@ const FormAddVehicle = ({ user }) => {
           />
         </Form.Group>
 
-        <Form.Group>
+        <Form.Group className='container-form-dropdown'>
           <Form.Label>Tipo de vehiculo</Form.Label>
           <Dropdown>
             <Dropdown.Toggle>
               {!!selectTypeVehicle ? selectTypeVehicle : 'Lista de tipos de vehiculos'} 
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setSelectTypeVehicle(MOTO)}>Moto</Dropdown.Item>
-              <Dropdown.Item onClick={() => setSelectTypeVehicle(CAR)}>Carro</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSelectTypeVehicle('Moto')}>Moto</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSelectTypeVehicle('Carro')}>Carro</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </Form.Group>
-        
-        <Button variant="success" type="submit"> Guardar </Button>
+
+        <div className='button-form'>
+          <Button variant="success" type="submit"> Guardar </Button>
+          <Button variant="warning" onClick={handleBlack}> Calcelar </Button>
+        </div>
       </Form>
-    </>
+      <AlertCustom alert={alert} />
+    </div>
   )
 }
 

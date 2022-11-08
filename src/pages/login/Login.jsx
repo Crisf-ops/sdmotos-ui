@@ -5,7 +5,7 @@ import './login.css'
 const Login = () => {
   return (
     <div>
-      <img src="/src/assets/moped.svg"  />
+      <img className='img-login' src="/src/assets/moped.svg"  />
       <FormLogin />
     </div>
   )

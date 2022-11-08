@@ -1,5 +1,24 @@
+.courses-container{
+	max-height: 450px;
+	overflow: scroll;
+}
+
+.courses-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.courses-container::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+.courses-container::-webkit-scrollbar-thumb {
+  background-color: darkgray;
+  border-radius: 20px;
+  border: 3px solid;
+}
+
 .course {
-	background-color: #fff;
+	background-color: var(--color-white);
 	border-radius: 10px;
 	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
 	display: flex;
@@ -23,8 +42,8 @@
 }
 
 .course-preview {
-	background-color: #2A265F;
-	color: #fff;
+	background-color: var(--color-bg-variant);
+	color: var(--color-white);
 	padding: 30px;
 	max-width: 250px;
 }
@@ -52,19 +71,25 @@
 	color: #fff;
 	font-size: 16px;
 	padding: 12px 25px;
-	position: absolute;
 	bottom: 30px;
-	right: 30px;
 	letter-spacing: 1px;
 	transition: background-color 100ms ease-in-out, transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 .btn-vehicle:hover {
-	background-color: aqua;
+	background-color: var(--color-light);
+	color: black;
+	border-color: var(--color-primary);
 	transform: scale(1.1);
 }
 
 .btn-vehicle:active{
-	background-color: #e8a200;
+	background-color: var(--color-primary);
   transform: scale(1);
+}
+
+.container-btn{
+	padding-top: 10px;
+	display: flex;
+	justify-content: space-around;
 }

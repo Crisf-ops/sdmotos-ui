@@ -6,9 +6,9 @@ import User from './pages/user/User'
 import NoFoundPage from './components/notFoundPage/NoFoundPage'
 import Login from './pages/login/Login'
 import PrivateRouter from './components/PrivateRouter'
-import { paths } from './setting/paths'
 import NewUser from './pages/createdNewUser/NewUser'
 import AddVehicle from './pages/addVehicleUser/AddVehicle'
+import AddRepair from './pages/addRepair/addRepair'
 
 const App = () => {
 
@@ -22,6 +22,7 @@ const App = () => {
           <Route path='/newUser' element={<NewUser />} />
           <Route path='/user/:id' element={<User />} />
           <Route path='/addVehicle/:id' element={<AddVehicle />} />
+          <Route path='/addRepair/:id' element={<AddRepair/>} />
         </Route>
         <Route path='*' element={<NoFoundPage />} />
       </Routes>

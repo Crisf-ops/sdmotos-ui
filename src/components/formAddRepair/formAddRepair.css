@@ -1,0 +1,5 @@
+.container-amount{
+  display: flex;
+  flex-direction: row;
+  gap: 8rem;
+}

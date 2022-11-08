@@ -1,4 +1,4 @@
-.container-form{
+.container-form {
   position: absolute;
   top: 2rem;
   left: 25%;
@@ -16,10 +16,27 @@
   margin-top: 20px;
 }
 
+.container-form-dropdown{
+  margin: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.container-form-dropdown label{
+  margin: 10px;
+}
+
 @media only screen and (max-width: 700px) {
   .container-form {
-    width: 50%;
+    width: 90%;
     left: 5%;
-    top: 5%;
+    top: 10%;
+  }
+  .container-form-dropdown{
+    flex-direction: column;
+    margin: 9%;
+  }
+  .container-form-dropdown label{
+    text-align: center;
   }
 }

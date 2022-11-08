@@ -14,11 +14,20 @@ const ListClient = () => {
   const [filterText, setFilterText] = useState('')
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
   const navigate = useNavigate()
+  const FIXED_HEADER_SCROLL = '250px'
 
   const getListClients = async () => {
     const response = await axios.get(endpoints.getListClient).catch(err => console.log(err))
     if (response) {
       setListClient(response.data)
+    }
+  }
+
+  const deleteUser = async (e, user) => {
+    e.preventDefault()
+    const responseDelete = await axios.delete(`${endpoints.deleteUser}/${user.id}`).catch(err => console.log(err))
+    if(responseDelete.status === 202){
+      getListClients()
     }
   }
 
@@ -71,10 +80,10 @@ const ListClient = () => {
     {
       name: 'Aciones',
       cell: (row) => (
-        <>
+        <div className='btn-list' >
         <Button onClick={(e) => handleChange(e, row)} >Editar</Button>
-        <Button onClick={(e) => handleChange(e, row)} >Eliminar</Button>
-        </>
+        <Button onClick={(e) => deleteUser(e, row)} >Eliminar</Button>
+        </div>
       ) ,
       sortable: false,
     }
@@ -85,7 +94,7 @@ const ListClient = () => {
     rangeSeparatorText: 'de',
     selectAllRowsItem: true,
     selectAllRowsItemText: 'Todos',
-  };
+  }
 
   return (
     <>
@@ -95,12 +104,15 @@ const ListClient = () => {
           title="Clientes"
           columns={columns}
           data={filteredItems}
-          defaultSortFieldId="name"
+          filterData
           striped
           pagination
           paginationComponentOptions={paginationOptions}
           subHeader
           subHeaderComponent={subHeaderComponent}
+          fixedHeader
+          fixedHeaderScrollHeight={FIXED_HEADER_SCROLL}
+          className='dataTable'
         />
       </Container>
     </>

@@ -1,12 +1,10 @@
 import FormNewUser from "../../components/formNewUser/FormNewUser"
-import Nav from "../../components/nav/Nav"
-
+import './newUser.css'
 const NewUser = () => {
   return (
     <>
-    <div>newUser</div>
+    <img className="img-newUser" src="/src/assets/moto-1541333.svg"/>
     <FormNewUser/>
-    <Nav/>
     </>
   )
 }

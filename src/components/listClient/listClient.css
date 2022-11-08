@@ -7,6 +7,33 @@
   margin-bottom: 10px;
 }
 
+.rdt_TableHeader {
+  border-radius: 11px 11px 0 0;
+}
+
+.rdt_Pagination{
+  border-radius: 0 0 11px 11px;
+}
+
+.btn-list{
+  display: flex;
+  gap: 1rem ;
+}
+
+.dataTable::-webkit-scrollbar {
+  width: 12px;
+}
+
+.dataTable::-webkit-scrollbar-track {
+  background: var(--color-white);
+}
+
+.dataTable::-webkit-scrollbar-thumb {
+  background-color: darkgray;
+  border-radius: 20px;
+  border: 3px solid;
+}
+
 @media screen and (max-width: 1024px) {
   #table {
     width: 700px;

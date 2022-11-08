@@ -9,7 +9,6 @@
 .slider{
   width: 90%;
   margin: auto;
-  height: 600px;
   /* ocultar imagnes que esten fuera se oculten */
   overflow: hidden;
 }

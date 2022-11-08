@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { endpoints } from '../../setting/endpoints'
+import { validateFieldsIsEmpty, validateFieldsIsNumber } from '../../utils/utils'
+import AlertCustom from '../alert/AlertCustom'
+import './formNewUser.css'
 
 const FormNewUser = () => {
 
@@ -11,37 +14,72 @@ const FormNewUser = () => {
   const [numDocument, setNumDocument] = useState('')
   const [numContact, setNumContact] = useState('')
   const [email, setEmail] = useState('')
-  const navegate = useNavigate()
+  const [alert, setAlert] = useState(null)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await axios.post(endpoints.saveUser, JSON.stringify({
+    if (validateForm()) {
+      const response = await axios.post(endpoints.saveUser, buildRequest(), 
+      { 
+        headers: { 'Content-Type': 'application/json' } 
+      }).catch(err => console.error(err))
+  
+      if (response.status === 201) {
+        e.target.reset()
+        handleShowAlert(true,'success','Se a guardado el Cliente')
+      } else {
+        handleShowAlert(true,'danger','No se ha pudo guardado el vehiculo')
+      }
+    } else {
+      handleShowAlert(true,'danger','Verifique los campos')
+    }
+  }
+
+  const validateForm = () => {
+    let valid = 0
+    valid += validateFieldsIsEmpty(nameUser) ? 0 : 1
+    valid += validateFieldsIsNumber(nameUser) ? 0 : 1
+    valid += validateFieldsIsEmpty(lastName) ? 0 : 1
+    valid += validateFieldsIsNumber(lastName) ? 0 : 1
+    
+    return valid === 0
+  }
+
+  const buildRequest = () => {
+    return JSON.stringify({
       documento: numDocument,
       name: nameUser,
       lastName: lastName,
       contactNumber: numContact,
       email: email
-    }), 
-    { 
-      headers: { 'Content-Type': 'application/json' } 
-    }).catch(err => console.error(err))
-
-    if (response.status === 201) {
-      e.target.reset()
-    }
-
-    console.log(response);
+    })
   }
 
   const handleBackList = () => {
-    navegate('/listUser')
+    navigate('/listUser')
   }
 
+  const handleShowAlert = (status, variant ,text) => {
+    setAlert({
+      status: status,
+      variant: variant,
+      text: text
+    })
+    setTimeout(() => {
+      setAlert(null)
+    },'5000')
+  }
+
+  (() => {
+    document.body.classList.add('no-scroll')
+  })()
 
 
   return (
-    <>
-      <Form id='formNewUser'>
+    <div className='container-form'>
+      <h2>NUEVO USUARIO</h2>
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>Nombre</Form.Label>
           <Form.Control
@@ -69,7 +107,6 @@ const FormNewUser = () => {
             autoComplete='off'
             type='number'
             min='1'
-            max='10'
             onChange={(e) => setNumDocument(e.target.value)}
           />
         </Form.Group>
@@ -81,7 +118,6 @@ const FormNewUser = () => {
             autoComplete='off'
             type='number'
             min='1'
-            max='11'
             onChange={(e) => setNumContact(e.target.value)}
           />
         </Form.Group>
@@ -95,11 +131,13 @@ const FormNewUser = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-
+        <div className='button-form'>
         <Button variant="success" type="submit"> Guardar </Button>
         <Button variant="warning" onClick={handleBackList}> Cancelar </Button>
+        </div>
       </Form>
-    </>
+      <AlertCustom alert={alert}/>
+    </div>
   )
 }
 

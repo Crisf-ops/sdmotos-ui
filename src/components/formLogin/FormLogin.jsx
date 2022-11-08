@@ -5,12 +5,14 @@ import { endpoints } from '../../setting/endpoints.js'
 import { enviroment } from '../../environment/environment.js'
 import './formLogin.css'
 import { useNavigate } from 'react-router-dom'
+import AlertCustom from '../alert/AlertCustom.jsx'
 
 const FormLogin = () => {
 
   
   const [user, setUser] = useState('')
   const [pwd, setPwd] = useState('')
+  const [alert, setAlert] = useState(null)
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
@@ -27,6 +29,18 @@ const FormLogin = () => {
         window.localStorage.setItem(enviroment.MY_AUTH,true)
         navigate('/home')
       }
+      handleShowAlert(true,'danger','Usuario no valido')
+  }
+
+  const handleShowAlert = (status, variant ,text) => {
+    setAlert({
+      status: status,
+      variant: variant,
+      text: text
+    })
+    setTimeout(() => {
+      setAlert(null)
+    },'5000')
   }
 
   return (
@@ -50,10 +64,13 @@ const FormLogin = () => {
             placeholder="Password"
             onChange={(e) => setPwd(e.target.value)} />
         </Form.Group>
-        <Button id='subit' type="submit" >
-          Ingresar
-        </Button>
+        <div>
+          <Button className='button-form' id='subit' type="submit" >
+            Ingresar
+          </Button>
+        </div>
       </Form>
+      <AlertCustom alert={alert} />
     </div>
   )
 }
